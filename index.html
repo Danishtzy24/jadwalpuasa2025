@@ -12,582 +12,557 @@
   
   <style>
     :root {
-      --primary-color: #0E4C92;
-      --secondary-color: #419D78;
-      --accent-color: #EFC958;
-      --light-color: #F8F9FA;
-      --dark-color: #1A2238;
-      --time-color: #FF6B35;
-      --gradient-bg: linear-gradient(135deg, var(--dark-color), #2A3456);
-      --card-bg: rgba(255, 255, 255, 0.08);
-      --card-border: rgba(255, 255, 255, 0.1);
-      --card-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-      --border-radius: 18px;
-      --transition: all 0.3s ease;
-    }
-    
-    /* ================= SPLASH SCREEN ================= */
-    #splash {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: var(--gradient-bg);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 9999;
-      transition: opacity 1s ease;
-    }
-    /* Saat splash fade out */
-    #splash.fade-out {
-      opacity: 0;
-    }
-    /* Animasi fade in untuk konten splash */
-    .splash-content {
-      text-align: center;
-      color: var(--light-color);
-      opacity: 0;
-      animation: fadeIn 1s ease-out forwards;
-    }
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    /* Styling logo PNG */
-    .logo-container {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-    .logo {
-      width: 150px;
-      height: auto;
-      /* Jika logo PNG ingin diberi efek bayangan */
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-      border-radius: 10px;
-    }
-    .logo-text {
-      margin-top: 10px;
-      font-size: 18px;
-      color: var(--light-color);
-      opacity: 0.8;
-      font-family: 'Montserrat', sans-serif;
-    }
-    
-    /* ================= GLOBAL STYLES ================= */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-    body {
-      font-family: 'Montserrat', sans-serif;
-      background: var(--gradient-bg);
-      color: var(--light-color);
-      min-height: 100vh;
-      padding: 20px;
-      position: relative;
-      overflow-x: hidden;
-    }
-    /* Background Pattern */
-    body::before {
-      content: "";
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: url('https://www.transparenttextures.com/patterns/mosque.png');
-      opacity: 0.04;
-      z-index: 0;
-    }
-    
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-      position: relative;
-      z-index: 1;
-    }
-    
-    .arabic-title {
-      font-family: 'Amiri', serif;
-      font-size: 28px;
-      margin-bottom: 10px;
-      opacity: 0.9;
-    }
-    header {
-      text-align: center;
-      margin-bottom: 40px;
-      padding-top: 20px;
-      position: relative;
-    }
-    .main-title {
-      font-size: 32px;
-      font-weight: 600;
-      margin-bottom: 5px;
-      background: linear-gradient(45deg, var(--light-color), var(--accent-color));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      display: inline-block;
-    }
-    .subtitle {
-      font-size: 16px;
-      opacity: 0.8;
-      max-width: 600px;
-      margin: 0 auto;
-    }
-    .ramadan-decorations {
-      position: absolute;
-      top: -15px;
-      width: 100%;
-      display: flex;
-      justify-content: center;
-      opacity: 0.7;
-    }
-    .ramadan-decorations i {
-      color: var(--accent-color);
-      font-size: 18px;
-      margin: 0 10px;
-    }
-    .decorative-divider {
-      height: 3px;
-      width: 100px;
-      background: linear-gradient(90deg, transparent, var(--accent-color), transparent);
-      margin: 15px auto;
-      border-radius: 2px;
-    }
-    
-    /* Location Selector */
-    .location-selector {
-      margin-top: 20px;
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      opacity: 0.9;
-      position: relative;
-    }
-    .location-selector i {
-      color: var(--accent-color);
-    }
-    .location-selector select {
-      padding: 8px 12px;
-      background: rgba(42, 52, 86, 0.8);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      border-radius: 8px;
-      color: var(--light-color);
-      font-family: 'Montserrat', sans-serif;
-      cursor: pointer;
-      transition: all 0.3s ease-in-out;
-      appearance: none;
-      -webkit-appearance: none;
-      -moz-appearance: none;
-      position: relative;
-    }
-    .location-selector select:hover {
-      background: rgba(42, 52, 86, 1);
-      border-color: var(--accent-color);
-      transform: scale(1.05);
-    }
-    .location-selector select:focus {
-      outline: none;
-      border-color: var(--accent-color);
-      background: rgba(42, 52, 86, 1);
-    }
-    .location-selector select option {
-      background: rgba(42, 52, 86, 1) !important;
-      color: var(--light-color) !important;
-      padding: 10px;
-    }
-    .location-selector select::-webkit-scrollbar {
-      width: 8px;
-    }
-    .location-selector select::-webkit-scrollbar-track {
-      background: rgba(255, 255, 255, 0.1);
-    }
-    .location-selector select::-webkit-scrollbar-thumb {
-      background: var(--accent-color);
-      border-radius: 4px;
-    }
-    
-    .dashboard {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 25px;
-      margin-bottom: 30px;
-    }
-    .card {
-      background: var(--card-bg);
-      backdrop-filter: blur(10px);
-      border: 1px solid var(--card-border);
-      border-radius: var(--border-radius);
-      padding: 25px;
-      box-shadow: var(--card-shadow);
-      transition: var(--transition);
-    }
-    .card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
-    }
-    .card-header {
-      display: flex;
-      align-items: center;
-      margin-bottom: 15px;
-    }
-    .card-icon {
-      width: 36px;
-      height: 36px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: rgba(255, 255, 255, 0.1);
-      border-radius: 50%;
-      margin-right: 10px;
-    }
-    .card-icon i {
-      color: var(--accent-color);
-      font-size: 18px;
-    }
-    .card-title {
-      font-size: 16px;
-      font-weight: 500;
-      opacity: 0.9;
-    }
-    .clock-card {
-      text-align: center;
-    }
-    .clock-time {
-      font-size: 3.5rem;
-      font-weight: 300;
-      margin: 10px 0;
-      color: var(--light-color);
-      text-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
-      letter-spacing: 2px;
-    }
-    .date-container {
-      display: flex;
-      justify-content: center;
-      gap: 15px;
-      flex-wrap: wrap;
-    }
-    .date-box {
-      padding: 8px 15px;
-      background: rgba(255, 255, 255, 0.05);
-      border-radius: 8px;
-      font-size: 14px;
-    }
-    .hijri-date {
-      font-family: 'Lateef', serif;
-      font-size: 18px;
-      color: var(--accent-color);
-    }
-    .status-card {
-      text-align: center;
-      position: relative;
-    }
-    .status-value {
-      font-size: 24px;
-      font-weight: 600;
-      margin: 15px 0;
-      letter-spacing: 1px;
-    }
-    .status-active {
-      color: var(--secondary-color);
-    }
-    .status-badge {
-      display: inline-block;
-      padding: 5px 12px;
-      border-radius: 50px;
-      font-size: 14px;
-      font-weight: 500;
-      margin-top: 10px;
-    }
-    .status-badge.fasting {
-      background: rgba(65, 157, 120, 0.2);
-      color: var(--secondary-color);
-    }
-    .status-decoration {
-      position: absolute;
-      bottom: -30px;
-      right: -20px;
-      font-size: 80px;
-      opacity: 0.05;
-      transform: rotate(-15deg);
-    }
-    .time-card {
-      position: relative;
-    }
-    .timeline {
-      display: flex;
-      justify-content: space-between;
-      margin-top: 30px;
-      margin-bottom: 10px;
-      position: relative;
-    }
-    .timeline::before {
-      content: "";
-      position: absolute;
-      width: 100%;
-      height: 4px;
-      background: rgba(255, 255, 255, 0.1);
-      top: 50%;
-      transform: translateY(-50%);
-      border-radius: 4px;
-      z-index: 0;
-    }
-    .progress-bar {
-      position: absolute;
-      top: 50%;
-      left: 0;
-      transform: translateY(-50%);
-      height: 4px;
-      background: #4caf50;
-      width: 0%;
-      z-index: 1;
-      transition: width 0.5s ease;
-      border-radius: 4px;
-    }
-    .timeline-point {
-      width: 12px;
-      height: 12px;
-      border-radius: 50%;
-      background: rgba(255, 255, 255, 0.2);
-      z-index: 2;
-      position: relative;
-    }
-    .timeline-point.active {
-      background: var(--accent-color);
-      box-shadow: 0 0 0 3px rgba(239, 201, 88, 0.3);
-    }
-    .timeline-label {
-      position: absolute;
-      top: -25px;
-      left: 50%;
-      transform: translateX(-50%);
-      font-size: 12px;
-      white-space: nowrap;
-      color: rgba(255, 255, 255, 0.7);
-    }
-    .timeline-time {
-      position: absolute;
-      bottom: -25px;
-      left: 50%;
-      transform: translateX(-50%);
-      font-size: 12px;
-      white-space: nowrap;
-      color: var(--accent-color);
-    }
-    .remaining-time {
-      text-align: center;
-      margin-top: 30px;
-      font-size: 28px;
-      font-weight: 500;
-      color: var(--light-color);
-      letter-spacing: 1px;
-    }
-    .time-unit {
-      display: inline-block;
-      width: 50px;
-      text-align: center;
-      position: relative;
-    }
-    .time-unit::after {
-      content: ":";
-      position: absolute;
-      right: -5px;
-      top: -2px;
-    }
-    .time-unit:last-child::after {
-      content: "";
-      position: absolute;
-      right: -10px;
-      top: -2px;
-    }
-    .time-label {
-      display: block;
-      font-size: 12px;
-      opacity: 0.7;
-      margin-top: 5px;
-    }
-    .schedule-section {
-      margin-top: 40px;
-    }
-    .section-title {
-      margin-bottom: 20px;
-      font-weight: 500;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    .section-title i {
-      color: var(--accent-color);
-    }
-    .schedule-tabs {
-      display: flex;
-      gap: 10px;
-      margin-bottom: 20px;
-    }
-    .tab-button {
-      padding: 8px 16px;
-      background: rgba(255, 255, 255, 0.05);
-      border: none;
-      border-radius: 8px;
-      color: var(--light-color);
-      cursor: pointer;
-      transition: var(--transition);
-      font-size: 14px;
-    }
-    .tab-button:hover {
-      background: var(--accent-color);
-      color: var(--dark-color);
-    }
-    .tab-button.active {
-      background: var(--primary-color);
-      color: var(--light-color);
-    }
-    .schedule-table {
-      width: 100%;
-      border-collapse: separate;
-      border-spacing: 0 8px;
-    }
-    .schedule-table th {
-      text-align: left;
-      padding: 10px 15px;
-      color: rgba(255, 255, 255, 0.6);
-      font-weight: 500;
-      font-size: 14px;
-    }
-    .schedule-table td {
-      padding: 15px;
-      background: rgba(255, 255, 255, 0.03);
-      border-top: 1px solid rgba(255, 255, 255, 0.05);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-    }
-    .schedule-table tr td:first-child {
-      border-left: 1px solid rgba(255, 255, 255, 0.05);
-      border-top-left-radius: 10px;
-      border-bottom-left-radius: 10px;
-    }
-    .schedule-table tr td:last-child {
-      border-right: 1px solid rgba(255, 255, 255, 0.05);
-      border-top-right-radius: 10px;
-      border-bottom-right-radius: 10px;
-    }
-    .completed {
-      background: rgba(65, 157, 120, 0.2) !important;
-    }
-    .schedule-table tr:hover td {
-      background: rgba(255, 255, 255, 0.06);
-    }
-    .today-row td {
-      background: rgba(65, 157, 120, 0.1) !important;
-      border-color: rgba(65, 157, 120, 0.2) !important;
-    }
-    .date-cell {
-      display: flex;
-      align-items: center;
-    }
-    .date-badge {
-      width: 36px;
-      height: 36px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: rgba(255, 255, 255, 0.1);
-      border-radius: 50%;
-      margin-right: 12px;
-      font-weight: 600;
-      font-size: 16px;
-    }
-    .today-row .date-badge {
-      background: var(--secondary-color);
-    }
-    .date-text {
-      font-size: 15px;
-    }
-    .gregorian-date {
-      display: block;
-      font-size: 12px;
-      opacity: 0.7;
-      margin-top: 3px;
-    }
-    .time-cell {
-      font-weight: 500;
-    }
-    footer {
-      text-align: center;
-      margin-top: 40px;
-      padding: 20px 0;
-      opacity: 0.7;
-      font-size: 14px;
-    }
-    @media (max-width: 768px) {
-      .main-title {
-        font-size: 28px;
-      }
-      .clock-time {
-        font-size: 2.5rem;
-      }
-      .dashboard {
-        grid-template-columns: 1fr;
-      }
-      .time-cell {
-        text-align: right;
-      }
-    }
-    @media (max-width: 480px) {
-      .date-container {
-        flex-direction: column;
-        gap: 10px;
-      }
-      .schedule-table th, .schedule-table td {
-        padding: 10px;
-      }
-      .date-badge {
-        width: 30px;
-        height: 30px;
-      }
-    }
-    @keyframes pulse {
-      0% { transform: scale(1); }
-      50% { transform: scale(1.05); }
-      100% { transform: scale(1); }
-    }
-    .pulse {
-      animation: pulse 1.5s infinite;
-    }
-    .fade-in {
-      animation: fadeIn 0.5s forwards;
-    }
-    
-    /* ================= NOTIFIKASI ================= */
-    .notification {
-      position: fixed;
-      bottom: -100px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: var(--accent-color);
-      color: var(--dark-color);
-      padding: 15px 25px;
-      border-radius: var(--border-radius);
-      box-shadow: var(--card-shadow);
-      opacity: 0;
-      z-index: 10000;
-    }
-    .notification.show {
-      animation: popIn 0.5s forwards;
-    }
-    @keyframes popIn {
-      from {
-        transform: translate(-50%, 100%);
-        opacity: 0;
-      }
-      to {
-        transform: translate(-50%, 0);
-        opacity: 1;
-      }
-    }
+  --primary-color: #0E4C92;
+  --secondary-color: #419D78;
+  --accent-color: #EFC958;
+  --light-color: #F8F9FA;
+  --dark-color: #1A2238;
+  --time-color: #FF6B35;
+  --gradient-bg: linear-gradient(135deg, var(--dark-color), #2A3456);
+  --card-bg: rgba(255, 255, 255, 0.08);
+  --card-border: rgba(255, 255, 255, 0.1);
+  --card-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  --border-radius: 18px;
+  --transition: all 0.3s ease;
+}
+
+/* ================= SPLASH SCREEN ================= */
+#splash {
+  position: fixed;
+  inset: 0;
+  background: var(--gradient-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  transition: opacity 1s ease;
+}
+#splash.fade-out {
+  opacity: 0;
+}
+.splash-content {
+  text-align: center;
+  color: var(--light-color);
+  opacity: 0;
+  animation: fadeIn 1s ease-out forwards;
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.logo-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.logo {
+  width: 150px;
+  height: auto;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+}
+.logo-text {
+  margin-top: 10px;
+  font-size: 18px;
+  color: var(--light-color);
+  opacity: 0.8;
+  font-family: 'Montserrat', sans-serif;
+}
+
+/* ================= GLOBAL STYLES ================= */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  font-family: 'Montserrat', sans-serif;
+  background: var(--gradient-bg);
+  color: var(--light-color);
+  min-height: 100vh;
+  padding: 20px;
+  position: relative;
+  overflow-x: hidden;
+}
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: url('https://www.transparenttextures.com/patterns/mosque.png');
+  opacity: 0.04;
+  z-index: 0;
+}
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+.arabic-title {
+  font-family: 'Amiri', serif;
+  font-size: 28px;
+  margin-bottom: 10px;
+  opacity: 0.9;
+}
+header {
+  text-align: center;
+  margin-bottom: 40px;
+  padding-top: 20px;
+  position: relative;
+}
+.main-title {
+  font-size: 32px;
+  font-weight: 600;
+  margin-bottom: 5px;
+  background: linear-gradient(45deg, var(--light-color), var(--accent-color));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: inline-block;
+}
+.subtitle {
+  font-size: 16px;
+  opacity: 0.8;
+  max-width: 600px;
+  margin: 0 auto;
+}
+.ramadan-decorations {
+  position: absolute;
+  top: -15px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  opacity: 0.7;
+}
+.ramadan-decorations i {
+  color: var(--accent-color);
+  font-size: 18px;
+  margin: 0 10px;
+}
+.decorative-divider {
+  height: 3px;
+  width: 100px;
+  background: linear-gradient(90deg, transparent, var(--accent-color), transparent);
+  margin: 15px auto;
+  border-radius: 2px;
+}
+
+/* ================= LOCATION SELECTOR ================= */
+.location-selector {
+  margin-top: 20px;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  opacity: 0.9;
+  position: relative;
+}
+.location-selector i {
+  color: var(--accent-color);
+}
+.location-selector select {
+  padding: 8px 12px;
+  background: rgba(42, 52, 86, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  color: var(--light-color);
+  font-family: 'Montserrat', sans-serif;
+  cursor: pointer;
+  transition: var(--transition);
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  position: relative;
+}
+.location-selector select:hover {
+  background: rgba(42, 52, 86, 1);
+  border-color: var(--accent-color);
+  transform: scale(1.05);
+}
+.location-selector select:focus {
+  outline: none;
+  border-color: var(--accent-color);
+  background: rgba(42, 52, 86, 1);
+}
+.location-selector select option {
+  background: rgba(42, 52, 86, 1) !important;
+  color: var(--light-color) !important;
+  padding: 10px;
+}
+.location-selector select::-webkit-scrollbar {
+  width: 8px;
+}
+.location-selector select::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1);
+}
+.location-selector select::-webkit-scrollbar-thumb {
+  background: var(--accent-color);
+  border-radius: 4px;
+}
+
+/* ================= DASHBOARD & CARDS ================= */
+.dashboard {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 25px;
+  margin-bottom: 30px;
+}
+.card {
+  background: var(--card-bg);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--card-border);
+  border-radius: var(--border-radius);
+  padding: 25px;
+  box-shadow: var(--card-shadow);
+  transition: var(--transition);
+}
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+}
+.card-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+}
+.card-icon {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  margin-right: 10px;
+}
+.card-icon i {
+  color: var(--accent-color);
+  font-size: 18px;
+}
+.card-title {
+  font-size: 16px;
+  font-weight: 500;
+  opacity: 0.9;
+}
+
+/* ================= CLOCK CARD ================= */
+.clock-card {
+  text-align: center;
+}
+.clock-time {
+  font-size: 3.5rem;
+  font-weight: 300;
+  margin: 10px 0;
+  color: var(--light-color);
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+  letter-spacing: 2px;
+}
+.date-container {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+.date-box {
+  padding: 8px 15px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  font-size: 14px;
+}
+.hijri-date {
+  font-family: 'Lateef', serif;
+  font-size: 18px;
+  color: var(--accent-color);
+}
+
+/* ================= STATUS CARD ================= */
+.status-card {
+  text-align: center;
+  position: relative;
+}
+.status-value {
+  font-size: 24px;
+  font-weight: 600;
+  margin: 15px 0;
+  letter-spacing: 1px;
+}
+.status-active {
+  color: var(--secondary-color);
+}
+.status-badge {
+  display: inline-block;
+  padding: 5px 12px;
+  border-radius: 50px;
+  font-size: 14px;
+  font-weight: 500;
+  margin-top: 10px;
+}
+.status-badge.fasting {
+  background: rgba(65, 157, 120, 0.2);
+  color: var(--secondary-color);
+}
+.status-decoration {
+  position: absolute;
+  bottom: -30px;
+  right: -20px;
+  font-size: 80px;
+  opacity: 0.05;
+  transform: rotate(-15deg);
+}
+
+/* ================= TIMELINE ================= */
+.time-card {
+  position: relative;
+}
+.timeline {
+  display: flex;
+  justify-content: space-between;
+  margin: 30px 0 10px;
+  position: relative;
+}
+.timeline::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 100%;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  z-index: 0;
+}
+.progress-bar {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+  height: 4px;
+  background: #4caf50;
+  width: 0%;
+  z-index: 1;
+  transition: width 0.5s ease;
+  border-radius: 4px;
+}
+.timeline-point {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  position: relative;
+  z-index: 2;
+}
+.timeline-point.active {
+  background: var(--accent-color);
+  box-shadow: 0 0 0 3px rgba(239, 201, 88, 0.3);
+}
+.timeline-label {
+  position: absolute;
+  top: -25px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 12px;
+  white-space: nowrap;
+  color: rgba(255, 255, 255, 0.7);
+}
+.timeline-time {
+  position: absolute;
+  bottom: -25px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 12px;
+  white-space: nowrap;
+  color: var(--accent-color);
+}
+.remaining-time {
+  text-align: center;
+  margin-top: 30px;
+  font-size: 28px;
+  font-weight: 500;
+  color: var(--light-color);
+  letter-spacing: 1px;
+}
+.time-unit {
+  display: inline-block;
+  width: 50px;
+  text-align: center;
+  position: relative;
+}
+.time-unit::after {
+  content: ":"; 
+  position: absolute;
+  right: -5px;
+  top: -2px;
+}
+.time-unit:last-child::after {
+  content: "";
+  position: absolute;
+  right: -10px;
+  top: -2px;
+}
+.time-label {
+  display: block;
+  font-size: 12px;
+  opacity: 0.7;
+  margin-top: 5px;
+}
+
+/* ================= SCHEDULE SECTION ================= */
+.schedule-section {
+  margin-top: 40px;
+}
+.section-title {
+  margin-bottom: 20px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.section-title i {
+  color: var(--accent-color);
+}
+.schedule-tabs {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+.tab-button {
+  padding: 8px 16px;
+  background: rgba(255, 255, 255, 0.05);
+  border: none;
+  border-radius: 8px;
+  color: var(--light-color);
+  cursor: pointer;
+  transition: var(--transition);
+  font-size: 14px;
+}
+.tab-button:hover {
+  background: var(--accent-color);
+  color: var(--dark-color);
+}
+.tab-button.active {
+  background: var(--primary-color);
+  color: var(--light-color);
+}
+.schedule-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 8px;
+}
+.schedule-table th {
+  text-align: left;
+  padding: 10px 15px;
+  color: rgba(255, 255, 255, 0.6);
+  font-weight: 500;
+  font-size: 14px;
+}
+.schedule-table td {
+  padding: 15px;
+  background: rgba(255, 255, 255, 0.03);
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+.schedule-table tr td:first-child {
+  border-left: 1px solid rgba(255, 255, 255, 0.05);
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+}
+.schedule-table tr td:last-child {
+  border-right: 1px solid rgba(255, 255, 255, 0.05);
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+.completed {
+  background: rgba(65, 157, 120, 0.2) !important;
+}
+.schedule-table tr:hover td {
+  background: rgba(255, 255, 255, 0.06);
+}
+.today-row td {
+  background: rgba(65, 157, 120, 0.1) !important;
+  border-color: rgba(65, 157, 120, 0.2) !important;
+}
+.date-cell {
+  display: flex;
+  align-items: center;
+}
+.date-badge {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  margin-right: 12px;
+  font-weight: 600;
+  font-size: 16px;
+}
+.today-row .date-badge {
+  background: var(--secondary-color);
+}
+.date-text {
+  font-size: 15px;
+}
+.gregorian-date {
+  display: block;
+  font-size: 12px;
+  opacity: 0.7;
+  margin-top: 3px;
+}
+.time-cell {
+  font-weight: 500;
+}
+footer {
+  text-align: center;
+  margin-top: 40px;
+  padding: 20px 0;
+  opacity: 0.7;
+  font-size: 14px;
+}
+
+/* ================= NOTIFIKASI ================= */
+.notification {
+  position: fixed;
+  bottom: -100px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--accent-color);
+  color: var(--dark-color);
+  padding: 15px 25px;
+  border-radius: var(--border-radius);
+  box-shadow: var(--card-shadow);
+  opacity: 0;
+  z-index: 10000;
+}
+.notification.show {
+  animation: popIn 0.5s forwards;
+}
+@keyframes popIn {
+  from { transform: translate(-50%, 100%); opacity: 0; }
+  to { transform: translate(-50%, 0); opacity: 1; }
+}
+
+/* ================= UTILITY ANIMATIONS ================= */
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+.pulse { animation: pulse 1.5s infinite; }
+.fade-in { animation: fadeIn 0.5s forwards; }
+
+/* ================= RESPONSIVE STYLES ================= */
+@media (max-width: 768px) {
+  .main-title { font-size: 28px; }
+  .clock-time { font-size: 2.5rem; }
+  .dashboard { grid-template-columns: 1fr; }
+  .time-cell { text-align: right; }
+}
+@media (max-width: 480px) {
+  .date-container { flex-direction: column; gap: 10px; }
+  .schedule-table th, .schedule-table td { padding: 10px; }
+  .date-badge { width: 30px; height: 30px; }
+}
+
   </style>
 </head>
 <body>
@@ -736,350 +711,455 @@
   </div>
   
   <script>
-    (function() {
+  (function() {
   "use strict";
-  // ================= CACHE DOM ELEMENTS =================
-  const splash = document.getElementById('splash');
-  const notification = document.getElementById("notification");
-  const clockTimeEl = document.getElementById('clockTime');
-  const clockDateEl = document.getElementById('clockDate');
-  const hijriDateEl = document.getElementById('hijriDate');
-  const scheduleListEl = document.getElementById('scheduleList');
-  const progressBarEl = document.getElementById("progressBar");
-  const fastingStatusEl = document.getElementById("fastingStatus");
-  const timeRemainingEl = document.getElementById("timeRemaining");
-  const statusBadgeEl = document.getElementById("statusBadge");
-  const timelinePoints = {
-    preSahur: document.getElementById("preSahurPoint"),
-    sahur: document.getElementById("sahurPoint"),
-    imsak: document.getElementById("imsakPoint"),
-    puasa: document.getElementById("puasaPoint"),
-    maghrib: document.getElementById("maghribPoint")
-  };
-  const tabButtons = document.querySelectorAll('.tab-button');
-  const locationSelect = document.getElementById('locationSelect');
 
-  // ================= SPLASH SCREEN: Fade Out Setelah Loading =================
-  window.addEventListener('load', function() {
-    // Tampilkan splash screen selama 1.5 detik, kemudian fade-out selama 1 detik
-    setTimeout(() => {
-      splash.classList.add('fade-out');
-      setTimeout(() => splash.style.display = 'none', 1000);
-    }, 1500);
-    // Notifikasi Maghrib akan dipicu melalui updateFastingProgress()
-  });
+  // --------------------- PRELOAD MECHANISM ---------------------
+  function preloadImages(urls, callback) {
+    let loaded = 0;
+    let count = urls.length;
+    if (count === 0) { callback(); return; }
+    urls.forEach(url => {
+      const img = new Image();
+      img.onload = img.onerror = function() {
+        loaded++;
+        if (loaded === count) callback();
+      };
+      img.src = url;
+    });
+  }
 
-  // ================= DATA DAN KONFIGURASI =================
-  const ramadanSchedule = [
-    { date: 1, gregorian: "2025-03-01", imsak: "04:41", subuh: "04:51", maghrib: "18:15" },
-    { date: 2, gregorian: "2025-03-02", imsak: "04:41", subuh: "04:51", maghrib: "18:14" },
-    { date: 3, gregorian: "2025-03-03", imsak: "04:41", subuh: "04:51", maghrib: "18:14" },
-    { date: 4, gregorian: "2025-03-04", imsak: "04:41", subuh: "04:51", maghrib: "18:14" },
-    { date: 5, gregorian: "2025-03-05", imsak: "04:41", subuh: "04:51", maghrib: "18:13" },
-    { date: 6, gregorian: "2025-03-06", imsak: "04:41", subuh: "04:51", maghrib: "18:13" },
-    { date: 7, gregorian: "2025-03-07", imsak: "04:41", subuh: "04:51", maghrib: "18:12" },
-    { date: 8, gregorian: "2025-03-08", imsak: "04:40", subuh: "04:50", maghrib: "18:12" },
-    { date: 9, gregorian: "2025-03-09", imsak: "04:40", subuh: "04:50", maghrib: "18:11" },
-    { date: 10, gregorian: "2025-03-10", imsak: "04:40", subuh: "04:50", maghrib: "18:11" },
-    { date: 11, gregorian: "2025-03-11", imsak: "04:40", subuh: "04:50", maghrib: "18:10" },
-    { date: 12, gregorian: "2025-03-12", imsak: "04:40", subuh: "04:50", maghrib: "18:10" },
-    { date: 13, gregorian: "2025-03-13", imsak: "04:40", subuh: "04:50", maghrib: "18:09" },
-    { date: 14, gregorian: "2025-03-14", imsak: "04:40", subuh: "04:50", maghrib: "18:09" },
-    { date: 15, gregorian: "2025-03-15", imsak: "04:39", subuh: "04:49", maghrib: "18:08" },
-    { date: 16, gregorian: "2025-03-16", imsak: "04:39", subuh: "04:49", maghrib: "18:08" },
-    { date: 17, gregorian: "2025-03-17", imsak: "04:39", subuh: "04:49", maghrib: "18:07" },
-    { date: 18, gregorian: "2025-03-18", imsak: "04:39", subuh: "04:49", maghrib: "18:07" },
-    { date: 19, gregorian: "2025-03-19", imsak: "04:39", subuh: "04:49", maghrib: "18:06" },
-    { date: 20, gregorian: "2025-03-20", imsak: "04:38", subuh: "04:48", maghrib: "18:06" },
-    { date: 21, gregorian: "2025-03-21", imsak: "04:38", subuh: "04:48", maghrib: "18:05" },
-    { date: 22, gregorian: "2025-03-22", imsak: "04:38", subuh: "04:48", maghrib: "18:05" },
-    { date: 23, gregorian: "2025-03-23", imsak: "04:38", subuh: "04:48", maghrib: "18:04" },
-    { date: 24, gregorian: "2025-03-24", imsak: "04:38", subuh: "04:48", maghrib: "18:04" },
-    { date: 25, gregorian: "2025-03-25", imsak: "04:37", subuh: "04:47", maghrib: "18:03" },
-    { date: 26, gregorian: "2025-03-26", imsak: "04:37", subuh: "04:47", maghrib: "18:03" },
-    { date: 27, gregorian: "2025-03-27", imsak: "04:37", subuh: "04:47", maghrib: "18:02" },
-    { date: 28, gregorian: "2025-03-28", imsak: "04:37", subuh: "04:47", maghrib: "18:02" },
-    { date: 29, gregorian: "2025-03-29", imsak: "04:36", subuh: "04:46", maghrib: "18:01" },
-    { date: 30, gregorian: "2025-03-30", imsak: "04:36", subuh: "04:46", maghrib: "18:01" }
+  const imageUrls = [
+    "https://www.transparenttextures.com/patterns/mosque.png",
+    "Ramadhan.png"
   ];
-  
-  const locations = {
-    jakarta: { name: "Jakarta", timeAdjustment: 0 },
-    bandung: { name: "Bandung", timeAdjustment: -5 },
-    surabaya: { name: "Surabaya", timeAdjustment: 2 },
-    yogyakarta: { name: "Yogyakarta", timeAdjustment: -3 },
-    medan: { name: "Medan", timeAdjustment: 7 }
-  };
-  let currentLocation = locations.jakarta;
-  let notificationShown = false;
 
-  // ================= PERSISTENT COMPLETED STATUS =================
-  // Jika waktu Maghrib sudah terlewati untuk suatu hari, nomor hari disimpan di localStorage
-  function markDayCompleted(day) {
-    let completedDays = JSON.parse(localStorage.getItem("completedDays")) || [];
-    if (!completedDays.includes(day)) {
-      completedDays.push(day);
-      localStorage.setItem("completedDays", JSON.stringify(completedDays));
-    }
-  }
-  
-  // ================= FUNGSI UTILITAS =================
-  function adjustTimeForLocation(timeString, adjustment) {
-    const [hours, minutes] = timeString.split(':').map(Number);
-    let totalMinutes = hours * 60 + minutes + adjustment;
-    if (totalMinutes < 0) totalMinutes += 24 * 60;
-    totalMinutes %= (24 * 60);
-    const adjustedHours = Math.floor(totalMinutes / 60);
-    const adjustedMinutes = totalMinutes % 60;
-    return `${String(adjustedHours).padStart(2, '0')}:${String(adjustedMinutes).padStart(2, '0')}`;
-  }
-  
-  function formatTime(date) {
-    return date.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
-  }
-  
-  function formatDate(date) {
-    return date.toLocaleDateString('id-ID', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
-  }
-  
-  function getHijriDate(date) {
-    const day = date.getDate();
-    const month = date.getMonth();
-    if (month === 1) return `${day} Rajab 1446`;
-    else if (month === 2) return `${day} Ramadan 1446`;
-    else return `${day} Syawal 1446`;
-  }
-  
-  function parseTimeForToday(timeStr) {
-    const [hh, mm] = timeStr.split(":").map(Number);
-    const now = new Date();
-    return new Date(now.getFullYear(), now.getMonth(), now.getDate(), hh, mm, 0);
-  }
-  
-  // Mengambil jadwal hari ini jika ada
-  function getTodaySchedule() {
-    const now = new Date();
-    return ramadanSchedule.find(item => new Date(item.gregorian).toDateString() === now.toDateString());
-  }
-  
-  // ================= UPDATE JAM, TANGGAL, DAN HIJRI =================
-  function updateClock() {
-    const now = new Date();
-    clockTimeEl.textContent = formatTime(now);
-    clockDateEl.textContent = formatDate(now);
-    hijriDateEl.textContent = getHijriDate(now);
-  }
-  
-  // ================= MENGISI DATA JADWAL (Schedule Table) =================
-  function populateSchedule(view) {
-    let completedDays = JSON.parse(localStorage.getItem("completedDays")) || [];
-    scheduleListEl.innerHTML = '';
-    const now = new Date();
-    let filteredSchedule = [];
-  
-    if (view === 'today') {
-      filteredSchedule = ramadanSchedule.filter(item => new Date(item.gregorian).toDateString() === now.toDateString());
-    } else if (view === 'week') {
-      filteredSchedule = ramadanSchedule.filter(item => item.date >= 1 && item.date <= 7);
-    } else {
-      filteredSchedule = ramadanSchedule;
-    }
-  
-    filteredSchedule.forEach(item => {
-      const tr = document.createElement('tr');
-      const scheduledDate = new Date(item.gregorian);
-  
-      if (scheduledDate.toDateString() === now.toDateString()) {
-        tr.classList.add('today-row');
-      }
-  
-      // Jika waktu Maghrib sudah terlewati, tandai sebagai completed dan simpan statusnya
-      const scheduledMaghrib = new Date(scheduledDate);
-      const [mh, mm] = item.maghrib.split(":").map(Number);
-      scheduledMaghrib.setHours(mh, mm, 0, 0);
-      if (now > scheduledMaghrib) {
-        markDayCompleted(item.date);
-      }
-  
-      if (completedDays.includes(item.date)) {
-        tr.classList.add("completed");
-      }
-  
-      const tdDate = document.createElement('td');
-      tdDate.innerHTML = `
-        <div class="date-cell">
-          <div class="date-badge">${item.date}</div>
-          <div class="date-text">
-            ${scheduledDate.toLocaleDateString('id-ID', { day: 'numeric', month: 'short' })}<br>
-            <span class="gregorian-date">${item.gregorian}</span>
-          </div>
-        </div>`;
-      tr.appendChild(tdDate);
-  
-      const tdImsak = document.createElement('td');
-      tdImsak.className = 'time-cell';
-      tdImsak.textContent = adjustTimeForLocation(item.imsak, currentLocation.timeAdjustment);
-      tr.appendChild(tdImsak);
-  
-      const tdSubuh = document.createElement('td');
-      tdSubuh.className = 'time-cell';
-      tdSubuh.textContent = adjustTimeForLocation(item.subuh, currentLocation.timeAdjustment);
-      tr.appendChild(tdSubuh);
-  
-      const tdMaghrib = document.createElement('td');
-      tdMaghrib.className = 'time-cell';
-      tdMaghrib.textContent = adjustTimeForLocation(item.maghrib, currentLocation.timeAdjustment);
-      tr.appendChild(tdMaghrib);
-  
-      scheduleListEl.appendChild(tr);
-    });
-  }
-  
-  tabButtons.forEach(btn => {
-    btn.addEventListener('click', () => {
-      tabButtons.forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      populateSchedule(btn.getAttribute('data-view'));
-    });
+  // Sembunyikan tampilan pada saat preload berlangsung (ngurangin lag)
+  document.body.style.visibility = 'hidden';
+  preloadImages(imageUrls, function() {
+    document.body.style.visibility = 'visible';
+    init();
   });
-  
-  locationSelect.addEventListener('change', e => {
-    currentLocation = locations[e.target.value];
-    const activeView = document.querySelector('.tab-button.active').getAttribute('data-view');
-    populateSchedule(activeView);
-  });
-  
-  populateSchedule('all');
-  
-  // ================= UPDATE PROGRESS PUASA, COUNTDOWN, & FASTING STATUS (dengan interval baru) =================
-  function updateProgressBarCustom(tPreSahur, tPuasa, tMaghrib) {
-    const now = new Date();
-    let progress = 0;
-    if (now < tPreSahur) {
-      progress = 0;
-    } else if (now < tPuasa) {
-      progress = ((now - tPreSahur) / (tPuasa - tPreSahur)) * 75;
-    } else if (now < tMaghrib) {
-      progress = 75 + ((now - tPuasa) / (tMaghrib - tPuasa)) * 25;
-    } else {
-      progress = 100;
+
+  // --------------------- INIT FUNCTION ---------------------
+  function init() {
+    // ================= OPTIMISASI =================
+    const splash = document.getElementById('splash');
+    const notification = document.getElementById("notification");
+    const clockTimeEl = document.getElementById('clockTime');
+    const clockDateEl = document.getElementById('clockDate');
+    const hijriDateEl = document.getElementById('hijriDate');
+    const scheduleListEl = document.getElementById('scheduleList');
+    const progressBarEl = document.getElementById("progressBar");
+    const fastingStatusEl = document.getElementById("fastingStatus");
+    const timeRemainingEl = document.getElementById("timeRemaining");
+    const statusBadgeEl = document.getElementById("statusBadge");
+    const timelinePoints = {
+      preSahur: document.getElementById("preSahurPoint"),
+      sahur: document.getElementById("sahurPoint"),
+      imsak: document.getElementById("imsakPoint"),
+      puasa: document.getElementById("puasaPoint"),
+      maghrib: document.getElementById("maghribPoint")
+    };
+    const tabButtons = document.querySelectorAll('.tab-button');
+    const locationSelect = document.getElementById('locationSelect');
+
+    // -------------------- NOTIFIKASI SISTEM/FLAG --------------------
+    let subuhNotified = false,
+        imsakNotified = false,
+        maghribNotified = false,
+        tarawihNotified = false;
+
+    // Notification Show
+    function showNotification(message) {
+      notification.textContent = message;
+      notification.style.display = "block";
+      notification.classList.add("show");
+      setTimeout(() => {
+        notification.classList.remove("show");
+        notification.style.display = "none";
+      }, 5000);
     }
-    progressBarEl.style.width = progress + "%";
-  }
-  
-  // Cek dan tampilkan notifikasi Maghrib sesuai jadwal
-  function checkMaghribNotification(todaySchedule) {
-    if (todaySchedule) {
-      const tMaghrib = parseTimeForToday(todaySchedule.maghrib);
+
+    // --------------------- SPLASH SCREEN ---------------------
+    window.addEventListener('load', function() {
+      setTimeout(() => {
+        splash.classList.add('fade-out');
+        setTimeout(() => splash.style.display = 'none', 1000);
+      }, 1500);
+    });
+
+    // ================= DATA DAN KONFIGURASI =================
+    const ramadanSchedule = [
+      { date: 1, gregorian: "2025-03-01", imsak: "04:41", subuh: "04:51", maghrib: "18:15", tarawihStart: "19:22", tarawihEnd: "20:30" },
+      { date: 2, gregorian: "2025-03-02", imsak: "04:41", subuh: "04:51", maghrib: "18:14" },
+      { date: 3, gregorian: "2025-03-03", imsak: "04:41", subuh: "04:51", maghrib: "18:14" },
+      { date: 4, gregorian: "2025-03-04", imsak: "04:41", subuh: "04:51", maghrib: "18:14" },
+      { date: 5, gregorian: "2025-03-05", imsak: "04:41", subuh: "04:51", maghrib: "18:13" },
+      { date: 6, gregorian: "2025-03-06", imsak: "04:41", subuh: "04:51", maghrib: "18:13" },
+      { date: 7, gregorian: "2025-03-07", imsak: "04:41", subuh: "04:51", maghrib: "18:12" },
+      { date: 8, gregorian: "2025-03-08", imsak: "04:40", subuh: "04:50", maghrib: "18:12" },
+      { date: 9, gregorian: "2025-03-09", imsak: "04:40", subuh: "04:50", maghrib: "18:11" },
+      { date: 10, gregorian: "2025-03-10", imsak: "04:40", subuh: "04:50", maghrib: "18:11" },
+      { date: 11, gregorian: "2025-03-11", imsak: "04:40", subuh: "04:50", maghrib: "18:10" },
+      { date: 12, gregorian: "2025-03-12", imsak: "04:40", subuh: "04:50", maghrib: "18:10" },
+      { date: 13, gregorian: "2025-03-13", imsak: "04:40", subuh: "04:50", maghrib: "18:09" },
+      { date: 14, gregorian: "2025-03-14", imsak: "04:40", subuh: "04:50", maghrib: "18:09" },
+      { date: 15, gregorian: "2025-03-15", imsak: "04:39", subuh: "04:49", maghrib: "18:08" },
+      { date: 16, gregorian: "2025-03-16", imsak: "04:39", subuh: "04:49", maghrib: "18:08" },
+      { date: 17, gregorian: "2025-03-17", imsak: "04:39", subuh: "04:49", maghrib: "18:07" },
+      { date: 18, gregorian: "2025-03-18", imsak: "04:39", subuh: "04:49", maghrib: "18:07" },
+      { date: 19, gregorian: "2025-03-19", imsak: "04:39", subuh: "04:49", maghrib: "18:06" },
+      { date: 20, gregorian: "2025-03-20", imsak: "04:38", subuh: "04:48", maghrib: "18:06" },
+      { date: 21, gregorian: "2025-03-21", imsak: "04:38", subuh: "04:48", maghrib: "18:05" },
+      { date: 22, gregorian: "2025-03-22", imsak: "04:38", subuh: "04:48", maghrib: "18:05" },
+      { date: 23, gregorian: "2025-03-23", imsak: "04:38", subuh: "04:48", maghrib: "18:04" },
+      { date: 24, gregorian: "2025-03-24", imsak: "04:38", subuh: "04:48", maghrib: "18:04" },
+      { date: 25, gregorian: "2025-03-25", imsak: "04:37", subuh: "04:47", maghrib: "18:03" },
+      { date: 26, gregorian: "2025-03-26", imsak: "04:37", subuh: "04:47", maghrib: "18:03" },
+      { date: 27, gregorian: "2025-03-27", imsak: "04:37", subuh: "04:47", maghrib: "18:02" },
+      { date: 28, gregorian: "2025-03-28", imsak: "04:37", subuh: "04:47", maghrib: "18:02" },
+      { date: 29, gregorian: "2025-03-29", imsak: "04:36", subuh: "04:46", maghrib: "18:01" },
+      { date: 30, gregorian: "2025-03-30", imsak: "04:36", subuh: "04:46", maghrib: "18:01" }
+    ];
+    
+    const locations = {
+      jakarta: { name: "Jakarta", timeAdjustment: 0 },
+      bandung: { name: "Bandung", timeAdjustment: -5 },
+      surabaya: { name: "Surabaya", timeAdjustment: 2 },
+      yogyakarta: { name: "Yogyakarta", timeAdjustment: -3 },
+      medan: { name: "Medan", timeAdjustment: 7 }
+    };
+    let currentLocation = locations.jakarta;
+    let notificationShown = false;
+    
+    // ================= PERSISTENT COMPLETED STATUS =================
+    function markDayCompleted(day) {
+      let completedDays = JSON.parse(localStorage.getItem("completedDays")) || [];
+      if (!completedDays.includes(day)) {
+        completedDays.push(day);
+        localStorage.setItem("completedDays", JSON.stringify(completedDays));
+      }
+    }
+    
+    // ================= FUNGSI UTILITAS =================
+    function adjustTimeForLocation(timeString, adjustment) {
+      const [hours, minutes] = timeString.split(':').map(Number);
+      let totalMinutes = hours * 60 + minutes + adjustment;
+      if (totalMinutes < 0) totalMinutes += 24 * 60;
+      totalMinutes %= (24 * 60);
+      const adjustedHours = Math.floor(totalMinutes / 60);
+      const adjustedMinutes = totalMinutes % 60;
+      return `${String(adjustedHours).padStart(2, '0')}:${String(adjustedMinutes).padStart(2, '0')}`;
+    }
+    
+    function formatTime(date) {
+      return date.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+    }
+    
+    function formatDate(date) {
+      return date.toLocaleDateString('id-ID', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+    }
+    
+    function getHijriDate(date) {
+      const day = date.getDate();
+      const month = date.getMonth();
+      if (month === 1) return `${day} Rajab 1446`;
+      else if (month === 2) return `${day} Ramadan 1446`;
+      else return `${day} Syawal 1446`;
+    }
+    
+    function parseTimeForToday(timeStr) {
+      const [hh, mm] = timeStr.split(":").map(Number);
       const now = new Date();
-      if (!notificationShown && now >= tMaghrib && now < new Date(tMaghrib.getTime() + 60000)) {
-        notification.style.display = "block";
-        notification.classList.add("show");
-        setTimeout(() => {
-          notification.classList.remove("show");
-          notification.style.display = "none";
-        }, 5000);
-        notificationShown = true;
+      return new Date(now.getFullYear(), now.getMonth(), now.getDate(), hh, mm, 0);
+    }
+    
+    // ================= JADWAL HARI INI =================
+    function getTodaySchedule() {
+      const now = new Date();
+      return ramadanSchedule.find(item => new Date(item.gregorian).toDateString() === now.toDateString());
+    }
+    
+    // ================= UPDATE JAM, TANGGAL, DAN HIJRI =================
+    function updateClock() {
+      const now = new Date();
+      clockTimeEl.textContent = formatTime(now);
+      clockDateEl.textContent = formatDate(now);
+      hijriDateEl.textContent = getHijriDate(now);
+    }
+    
+    // ================= MENGISI DATA JADWAL (Schedule Table) =================
+    function populateSchedule(view) {
+      let completedDays = JSON.parse(localStorage.getItem("completedDays")) || [];
+      scheduleListEl.innerHTML = '';
+      const now = new Date();
+      let filteredSchedule = [];
+    
+      if (view === 'today') {
+        filteredSchedule = ramadanSchedule.filter(item => new Date(item.gregorian).toDateString() === now.toDateString());
+      } else if (view === 'week') {
+        filteredSchedule = ramadanSchedule.filter(item => item.date >= 1 && item.date <= 7);
+      } else {
+        filteredSchedule = ramadanSchedule;
+      }
+    
+      filteredSchedule.forEach(item => {
+        const tr = document.createElement('tr');
+        const scheduledDate = new Date(item.gregorian);
+    
+        if (scheduledDate.toDateString() === now.toDateString()) {
+          tr.classList.add('today-row');
+        }
+    
+        // Tandai sebagai completed jika waktu Maghrib sudah terlewati
+        const scheduledMaghrib = new Date(scheduledDate);
+        const [mh, mm] = item.maghrib.split(":").map(Number);
+        scheduledMaghrib.setHours(mh, mm, 0, 0);
+        if (now > scheduledMaghrib) {
+          markDayCompleted(item.date);
+        }
+    
+        if (completedDays.includes(item.date)) {
+          tr.classList.add("completed");
+        }
+    
+        const tdDate = document.createElement('td');
+        tdDate.innerHTML = `
+          <div class="date-cell">
+            <div class="date-badge">${item.date}</div>
+            <div class="date-text">
+              ${scheduledDate.toLocaleDateString('id-ID', { day: 'numeric', month: 'short' })}<br>
+              <span class="gregorian-date">${item.gregorian}</span>
+            </div>
+          </div>`;
+        tr.appendChild(tdDate);
+    
+        const tdImsak = document.createElement('td');
+        tdImsak.className = 'time-cell';
+        tdImsak.textContent = adjustTimeForLocation(item.imsak, currentLocation.timeAdjustment);
+        tr.appendChild(tdImsak);
+    
+        const tdSubuh = document.createElement('td');
+        tdSubuh.className = 'time-cell';
+        tdSubuh.textContent = adjustTimeForLocation(item.subuh, currentLocation.timeAdjustment);
+        tr.appendChild(tdSubuh);
+    
+        const tdMaghrib = document.createElement('td');
+        tdMaghrib.className = 'time-cell';
+        tdMaghrib.textContent = adjustTimeForLocation(item.maghrib, currentLocation.timeAdjustment);
+        tr.appendChild(tdMaghrib);
+    
+        scheduleListEl.appendChild(tr);
+      });
+    }
+    
+    tabButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        tabButtons.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        populateSchedule(btn.getAttribute('data-view'));
+      });
+    });
+    
+    locationSelect.addEventListener('change', e => {
+      currentLocation = locations[e.target.value];
+      const activeView = document.querySelector('.tab-button.active').getAttribute('data-view');
+      populateSchedule(activeView);
+    });
+    
+    populateSchedule('all');
+    
+    // ================= UPDATE PROGRESS PUASA, COUNTDOWN, & FASTING STATUS =================
+    function updateProgressBarCustom(tPreSahur, tPuasa, tMaghrib) {
+      const now = new Date();
+      let progress = 0;
+      if (now < tPreSahur) {
+        progress = 0;
+      } else if (now < tPuasa) {
+        progress = ((now - tPreSahur) / (tPuasa - tPreSahur)) * 75;
+      } else if (now < tMaghrib) {
+        progress = 75 + ((now - tPuasa) / (tMaghrib - tPuasa)) * 25;
+      } else {
+        progress = 100;
+      }
+      progressBarEl.style.width = progress + "%";
+    }
+    
+    // ================= UPDATE TIMELINE DISPLAY =================
+    // Hanya untuk update waktu Subuh (ditampilkan di timeline "Sahur") dan Maghrib (ditampilkan di timeline "Buka Puasa")
+    function updateTimelineDisplay() {
+      const today = getTodaySchedule();
+      let subuhTime, maghribTime;
+      if (today) {
+        subuhTime = parseTimeForToday(today.subuh);
+        maghribTime = parseTimeForToday(today.maghrib);
+      } else {
+        subuhTime = parseTimeForToday("04:51");
+        maghribTime = parseTimeForToday("18:15");
+      }
+      function formatHHMM(date) {
+        const hh = date.getHours();
+        const mm = date.getMinutes();
+        return `${String(hh).padStart(2, '0')}:${String(mm).padStart(2, '0')}`;
+      }
+      timelinePoints.sahur.querySelector('.timeline-time').textContent = formatHHMM(subuhTime);
+      timelinePoints.maghrib.querySelector('.timeline-time').textContent = formatHHMM(maghribTime);
+    }
+    
+    // ================= NOTIFIKASI: Fungsi umum untuk menampilkan pesan notifikasi =================
+    function showNotification(message) {
+      notification.textContent = message;
+      notification.style.display = "block";
+      notification.classList.add("show");
+      setTimeout(() => {
+        notification.classList.remove("show");
+        notification.style.display = "none";
+      }, 5000);
+    }
+    
+    // ================= NOTIFIKASI UNTUK BERBAGAI EVENT =================
+    function checkAllNotifications(todaySchedule) {
+      if (todaySchedule) {
+        const now = new Date();
+        const threshold = 60000; // 1 menit
+        
+        const tSubuh = todaySchedule.subuh ? parseTimeForToday(todaySchedule.subuh) : parseTimeForToday("04:51");
+        const tImsak = todaySchedule.imsak ? parseTimeForToday(todaySchedule.imsak) : parseTimeForToday("04:41");
+        const tMaghrib = todaySchedule.maghrib ? parseTimeForToday(todaySchedule.maghrib) : parseTimeForToday("18:14");
+        const tTarawih = todaySchedule.tarawihStart ? parseTimeForToday(todaySchedule.tarawihStart) : parseTimeForToday("19:22");
+        
+        if (now >= tSubuh && now < new Date(tSubuh.getTime() + threshold) && !subuhNotified) {
+          showNotification("Waktunya Sholat Subuh");
+          subuhNotified = true;
+        }
+        if (now >= tImsak && now < new Date(tImsak.getTime() + threshold) && !imsakNotified) {
+          showNotification("Waktunya Imsak");
+          imsakNotified = true;
+        }
+        if (now >= tMaghrib && now < new Date(tMaghrib.getTime() + threshold) && !maghribNotified) {
+          showNotification("Waktunya Buka Puasa");
+          maghribNotified = true;
+        }
+        if (now >= tTarawih && now < new Date(tTarawih.getTime() + threshold) && !tarawihNotified) {
+          showNotification("Waktunya Sholat Tarawih");
+          tarawihNotified = true;
+        }
+        
+        if (now >= new Date(tSubuh.getTime() + threshold)) subuhNotified = false;
+        if (now >= new Date(tImsak.getTime() + threshold)) imsakNotified = false;
+        if (now >= new Date(tMaghrib.getTime() + threshold)) maghribNotified = false;
+        if (now >= new Date(tTarawih.getTime() + threshold)) tarawihNotified = false;
       }
     }
-  }
-  
-  // ================= UPDATE FASTING PROGRESS & FASTING STATUS =================
-  function updateFastingProgress() {
-    const now = new Date();
-    const todaySchedule = getTodaySchedule();
-    let maghrib;
-    if (todaySchedule) {
-      maghrib = parseTimeForToday(todaySchedule.maghrib);
-    } else {
-      maghrib = parseTimeForToday("18:14");
+    
+    // ================= UPDATE FASTING PROGRESS & FASTING STATUS =================
+    function updateFastingProgress() {
+      const now = new Date();
+      const todaySchedule = getTodaySchedule();
+      let maghrib;
+      if (todaySchedule && todaySchedule.maghrib) {
+        maghrib = parseTimeForToday(todaySchedule.maghrib);
+      } else {
+        maghrib = parseTimeForToday("18:14");
+      }
+      
+      // Sinkronisasi Jadwal
+      const sahurStart = todaySchedule && todaySchedule.sahurStart ? parseTimeForToday(todaySchedule.sahurStart) : parseTimeForToday("04:00");
+      const sahurEnd = todaySchedule && todaySchedule.imsak ? parseTimeForToday(todaySchedule.imsak) : parseTimeForToday("04:41");
+      const imsakStart = todaySchedule && todaySchedule.imsak ? parseTimeForToday(todaySchedule.imsak) : parseTimeForToday("04:41");
+      const imsakEnd = todaySchedule && todaySchedule.imsak ? new Date(parseTimeForToday(todaySchedule.imsak).getTime() + 19 * 60000) : parseTimeForToday("05:00");
+      const puasaStart = todaySchedule && todaySchedule.puasaStart ? parseTimeForToday(todaySchedule.puasaStart) : parseTimeForToday("05:00");
+      const tarawihStart = todaySchedule && todaySchedule.tarawihStart ? parseTimeForToday(todaySchedule.tarawihStart) : parseTimeForToday("19:22");
+      const tarawihEnd = todaySchedule && todaySchedule.tarawihEnd ? parseTimeForToday(todaySchedule.tarawihEnd) : parseTimeForToday("20:30");
+      
+      let statusText = "";
+      
+      // Reset Point Status 
+      Object.values(timelinePoints).forEach(pt => pt.classList.remove("active", "warning"));
+      const threshold = 60000; // 1 menit
+      
+      if (now >= sahurStart && now < sahurEnd) {
+        timelinePoints.sahur.classList.add("active");
+        if (sahurEnd - now <= threshold) timelinePoints.sahur.classList.add("warning");
+        statusText = "Sahur";
+      } else if (now >= imsakStart && now < imsakEnd) {
+        timelinePoints.imsak.classList.add("active");
+        if (imsakEnd - now <= threshold) timelinePoints.imsak.classList.add("warning");
+        statusText = "Imsak";
+      } else if (now >= puasaStart && now < maghrib) {
+        timelinePoints.puasa.classList.add("active");
+        if (maghrib - now <= threshold) timelinePoints.puasa.classList.add("warning");
+        statusText = "Berpuasa";
+      } else if (now >= maghrib && now < tarawihStart) {
+        timelinePoints.maghrib.classList.add("active");
+        if (tarawihStart - now <= threshold) timelinePoints.maghrib.classList.add("warning");
+        statusText = "Buka Puasa";
+      } else if (now >= tarawihStart && now < tarawihEnd) {
+        timelinePoints.maghrib.classList.add("active");
+        if (tarawihEnd - now <= threshold) timelinePoints.maghrib.classList.add("warning");
+        statusText = "Taraweh";
+      } else {
+        statusText = "Free Time";
+      }
+      fastingStatusEl.textContent = statusText;
+      
+      // ProggresBar Update 
+      let tPreSahur;
+      if (todaySchedule && todaySchedule.subuh) {
+        const tSubuh = parseTimeForToday(todaySchedule.subuh);
+        tPreSahur = new Date(tSubuh.getTime() - 51 * 60000);
+      } else {
+        tPreSahur = parseTimeForToday("03:30");
+      }
+      updateProgressBarCustom(tPreSahur, puasaStart, maghrib);
+      
+      // Data Event Countdown
+      let nextEvent;
+      if (now < sahurStart) {
+        nextEvent = sahurStart;
+      } else if (now < sahurEnd) {
+        nextEvent = sahurEnd;
+      } else if (now < imsakEnd) {
+        nextEvent = imsakEnd;
+      } else if (now < puasaStart) {
+        nextEvent = puasaStart;
+      } else if (now < maghrib) {
+        nextEvent = maghrib;
+      } else if (now < tarawihStart) {
+        nextEvent = tarawihStart;
+      } else if (now < tarawihEnd) {
+        nextEvent = tarawihEnd;
+      } else {
+        nextEvent = parseTimeForToday("04:00");
+        nextEvent.setDate(nextEvent.getDate() + 1);
+      }
+      const diff = nextEvent - now;
+      const hh = Math.floor(diff / 3600000);
+      const mm = Math.floor((diff % 3600000) / 60000);
+      const ss = Math.floor((diff % 60000) / 1000);
+      timeRemainingEl.innerHTML = `
+        <span class="time-unit">${String(hh).padStart(2, '0')}<span class="time-label">jam</span></span>
+        <span class="time-unit">${String(mm).padStart(2, '0')}<span class="time-label">menit</span></span>
+        <span class="time-unit">${String(ss).padStart(2, '0')}<span class="time-label">detik</span></span>
+      `;
+      statusBadgeEl.textContent = "-";
+      
+      checkAllNotifications(todaySchedule);
+      updateTimelineDisplay();
     }
     
-    // Definisikan interval-status baru:
-    const sahurStart   = parseTimeForToday("04:00");
-    const sahurEnd     = parseTimeForToday("04:41");
-    const imsakStart   = parseTimeForToday("04:41");
-    const imsakEnd     = parseTimeForToday("05:00");
-    const puasaStart   = parseTimeForToday("05:00");
-    const tarawihStart = parseTimeForToday("19:22");
-    const tarawihEnd   = parseTimeForToday("20:30");
+    // ================= INTERVAL UTAMA =================
+    setInterval(() => {
+      updateClock();
+      updateFastingProgress();
+      populateSchedule(document.querySelector('.tab-button.active')?.getAttribute('data-view') || 'all');
+    }, 1000);
     
-    let statusText = "";
-    if (now >= sahurStart && now < sahurEnd) {
-      statusText = "Sahur";
-    } else if (now >= imsakStart && now < imsakEnd) {
-      statusText = "Imsak";
-    } else if (now >= puasaStart && now < maghrib) {
-      statusText = "Berpuasa";
-    } else if (now >= maghrib && now < tarawihStart) {
-      statusText = "Buka Puasa";
-    } else if (now >= tarawihStart && now < tarawihEnd) {
-      statusText = "Taraweh";
-    } else {
-      // Free Time: dari tarawihEnd sampai sahurStart (memastikan wrap-around malam)
-      statusText = "Free Time";
-    }
-    fastingStatusEl.textContent = statusText;
-    
-    // Update progress bar (perhitungan contoh menggunakan tPreSahur sebagai titik awal)
-    // Jika ingin menggunakan perhitungan berbeda, silakan sesuaikan.
-    let tPreSahur;
-    if (todaySchedule) {
-      const tSubuh = parseTimeForToday(todaySchedule.subuh);
-      // Misal: anggap pre-sahur 51 menit sebelum subuh
-      tPreSahur = new Date(tSubuh.getTime() - 51 * 60000);
-    } else {
-      tPreSahur = parseTimeForToday("03:30");
-    }
-    updateProgressBarCustom(tPreSahur, puasaStart, maghrib);
-    
-    // Hitung countdown ke event berikutnya berdasarkan interval-status baru
-    let nextEvent;
-    if (now < sahurStart) {
-      nextEvent = sahurStart;
-    } else if (now < sahurEnd) {
-      nextEvent = sahurEnd;
-    } else if (now < imsakEnd) {
-      nextEvent = imsakEnd;
-    } else if (now < puasaStart) {
-      nextEvent = puasaStart;
-    } else if (now < maghrib) {
-      nextEvent = maghrib;
-    } else if (now < tarawihStart) {
-      nextEvent = tarawihStart;
-    } else if (now < tarawihEnd) {
-      nextEvent = tarawihEnd;
-    } else {
-      // Setelah free time, event berikutnya adalah sahurStart pada hari berikutnya
-      nextEvent = parseTimeForToday("04:00");
-      nextEvent.setDate(nextEvent.getDate() + 1);
-    }
-    const diff = nextEvent - now;
-    const hh = Math.floor(diff / 3600000);
-    const mm = Math.floor((diff % 3600000) / 60000);
-    const ss = Math.floor((diff % 60000) / 1000);
-    timeRemainingEl.innerHTML = `
-      <span class="time-unit">${String(hh).padStart(2, '0')}<span class="time-label">jam</span></span>
-      <span class="time-unit">${String(mm).padStart(2, '0')}<span class="time-label">menit</span></span>
-      <span class="time-unit">${String(ss).padStart(2, '0')}<span class="time-label">detik</span></span>
-    `;
-    statusBadgeEl.textContent = "-";
-    
-    checkMaghribNotification(todaySchedule);
-  }
-  
-  // ================= INTERVAL UTAMA =================
-  setInterval(() => {
     updateClock();
     updateFastingProgress();
-    populateSchedule(document.querySelector('.tab-button.active')?.getAttribute('data-view') || 'all');
-  }, 1000);
-  
-  // Inisialisasi update segera saat load
-  updateClock();
-  updateFastingProgress();
+  }
 })();
-
   </script>
 </body>
 </html>
