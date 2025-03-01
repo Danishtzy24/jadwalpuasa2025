@@ -813,6 +813,16 @@
   let currentLocation = locations.jakarta;
   let notificationShown = false;
 
+  // ================= PERSISTENT COMPLETED STATUS =================
+  // Jika waktu Maghrib sudah terlewati untuk suatu hari, nomor hari disimpan di localStorage
+  function markDayCompleted(day) {
+    let completedDays = JSON.parse(localStorage.getItem("completedDays")) || [];
+    if (!completedDays.includes(day)) {
+      completedDays.push(day);
+      localStorage.setItem("completedDays", JSON.stringify(completedDays));
+    }
+  }
+  
   // ================= FUNGSI UTILITAS =================
   function adjustTimeForLocation(timeString, adjustment) {
     const [hours, minutes] = timeString.split(':').map(Number);
@@ -835,13 +845,9 @@
   function getHijriDate(date) {
     const day = date.getDate();
     const month = date.getMonth();
-    if (month === 1) {
-      return `${day} Rajab 1446`;
-    } else if (month === 2) {
-      return `${day} Ramadan 1446`;
-    } else {
-      return `${day} Syawal 1446`;
-    }
+    if (month === 1) return `${day} Rajab 1446`;
+    else if (month === 2) return `${day} Ramadan 1446`;
+    else return `${day} Syawal 1446`;
   }
   
   function parseTimeForToday(timeStr) {
@@ -866,6 +872,7 @@
   
   // ================= MENGISI DATA JADWAL (Schedule Table) =================
   function populateSchedule(view) {
+    let completedDays = JSON.parse(localStorage.getItem("completedDays")) || [];
     scheduleListEl.innerHTML = '';
     const now = new Date();
     let filteredSchedule = [];
@@ -886,14 +893,18 @@
         tr.classList.add('today-row');
       }
   
+      // Jika waktu Maghrib sudah terlewati, tandai sebagai completed dan simpan statusnya
       const scheduledMaghrib = new Date(scheduledDate);
       const [mh, mm] = item.maghrib.split(":").map(Number);
       scheduledMaghrib.setHours(mh, mm, 0, 0);
       if (now > scheduledMaghrib) {
+        markDayCompleted(item.date);
+      }
+  
+      if (completedDays.includes(item.date)) {
         tr.classList.add("completed");
       }
   
-      // Buat kolom tanggal dengan badge dan teks
       const tdDate = document.createElement('td');
       tdDate.innerHTML = `
         <div class="date-cell">
@@ -905,7 +916,6 @@
         </div>`;
       tr.appendChild(tdDate);
   
-      // Kolom waktu imsak, subuh, dan maghrib
       const tdImsak = document.createElement('td');
       tdImsak.className = 'time-cell';
       tdImsak.textContent = adjustTimeForLocation(item.imsak, currentLocation.timeAdjustment);
@@ -939,10 +949,9 @@
     populateSchedule(activeView);
   });
   
-  // Inisialisasi tabel jadwal (default: all)
   populateSchedule('all');
   
-  // ================= PROGRESS PUASA (Timeline, Progress Bar, & Countdown) =================
+  // ================= UPDATE PROGRESS PUASA, COUNTDOWN, & FASTING STATUS (dengan interval baru) =================
   function updateProgressBarCustom(tPreSahur, tPuasa, tMaghrib) {
     const now = new Date();
     let progress = 0;
@@ -975,97 +984,100 @@
     }
   }
   
+  // ================= UPDATE FASTING PROGRESS & FASTING STATUS =================
   function updateFastingProgress() {
     const now = new Date();
     const todaySchedule = getTodaySchedule();
-    let tPreSahur, tSahur, tImsak, tPuasa, tMaghrib;
-  
+    let maghrib;
     if (todaySchedule) {
-      const tSubuh = parseTimeForToday(todaySchedule.subuh);
-      tImsak = parseTimeForToday(todaySchedule.imsak);
-      tMaghrib = parseTimeForToday(todaySchedule.maghrib);
-      // Asumsikan waktu sahur adalah 51 menit sebelum subuh
-      tSahur = new Date(tSubuh.getTime() - 51 * 60000);
-      // Pre-sahur 30 menit sebelum sahur
-      tPreSahur = new Date(tSahur.getTime() - 30 * 60000);
-      // Waktu puasa 19 menit setelah imsak
-      tPuasa = new Date(tImsak.getTime() + 19 * 60000);
+      maghrib = parseTimeForToday(todaySchedule.maghrib);
     } else {
-      // Default jika jadwal hari ini tidak tersedia
-      tPreSahur = parseTimeForToday("03:30");
-      tSahur    = parseTimeForToday("04:00");
-      tImsak    = parseTimeForToday("04:41");
-      tPuasa    = parseTimeForToday("05:00");
-      tMaghrib  = parseTimeForToday("18:14");
+      maghrib = parseTimeForToday("18:14");
     }
-  
-    updateProgressBarCustom(tPreSahur, tPuasa, tMaghrib);
-  
-    // Reset timeline
-    Object.values(timelinePoints).forEach(pt => pt.classList.remove("active"));
+    
+    // Definisikan interval-status baru:
+    const sahurStart   = parseTimeForToday("04:00");
+    const sahurEnd     = parseTimeForToday("04:41");
+    const imsakStart   = parseTimeForToday("04:41");
+    const imsakEnd     = parseTimeForToday("05:00");
+    const puasaStart   = parseTimeForToday("05:00");
+    const tarawihStart = parseTimeForToday("19:22");
+    const tarawihEnd   = parseTimeForToday("20:30");
+    
     let statusText = "";
-  
-    if (now < tSahur) {
-      timelinePoints.preSahur.classList.add("active");
-      statusText = "Belum Mulai Puasa";
-    } else if (now < tImsak) {
-      timelinePoints.sahur.classList.add("active");
-      statusText = "Makan Sahur";
-    } else if (now < tPuasa) {
-      timelinePoints.imsak.classList.add("active");
-      statusText = "Sudah Imsak";
-    } else if (now < tMaghrib) {
-      timelinePoints.puasa.classList.add("active");
+    if (now >= sahurStart && now < sahurEnd) {
+      statusText = "Sahur";
+    } else if (now >= imsakStart && now < imsakEnd) {
+      statusText = "Imsak";
+    } else if (now >= puasaStart && now < maghrib) {
       statusText = "Berpuasa";
-    } else {
-      timelinePoints.maghrib.classList.add("active");
+    } else if (now >= maghrib && now < tarawihStart) {
       statusText = "Buka Puasa";
+    } else if (now >= tarawihStart && now < tarawihEnd) {
+      statusText = "Taraweh";
+    } else {
+      // Free Time: dari tarawihEnd sampai sahurStart (memastikan wrap-around malam)
+      statusText = "Free Time";
     }
     fastingStatusEl.textContent = statusText;
-  
-    let nextEvent;
-    if (now < tSahur) {
-      nextEvent = tSahur;
-    } else if (now < tImsak) {
-      nextEvent = tImsak;
-    } else if (now < tPuasa) {
-      nextEvent = tPuasa;
-    } else if (now < tMaghrib) {
-      nextEvent = tMaghrib;
+    
+    // Update progress bar (perhitungan contoh menggunakan tPreSahur sebagai titik awal)
+    // Jika ingin menggunakan perhitungan berbeda, silakan sesuaikan.
+    let tPreSahur;
+    if (todaySchedule) {
+      const tSubuh = parseTimeForToday(todaySchedule.subuh);
+      // Misal: anggap pre-sahur 51 menit sebelum subuh
+      tPreSahur = new Date(tSubuh.getTime() - 51 * 60000);
     } else {
-      nextEvent = new Date(tPreSahur.getTime() + 24 * 3600000);
+      tPreSahur = parseTimeForToday("03:30");
     }
-  
+    updateProgressBarCustom(tPreSahur, puasaStart, maghrib);
+    
+    // Hitung countdown ke event berikutnya berdasarkan interval-status baru
+    let nextEvent;
+    if (now < sahurStart) {
+      nextEvent = sahurStart;
+    } else if (now < sahurEnd) {
+      nextEvent = sahurEnd;
+    } else if (now < imsakEnd) {
+      nextEvent = imsakEnd;
+    } else if (now < puasaStart) {
+      nextEvent = puasaStart;
+    } else if (now < maghrib) {
+      nextEvent = maghrib;
+    } else if (now < tarawihStart) {
+      nextEvent = tarawihStart;
+    } else if (now < tarawihEnd) {
+      nextEvent = tarawihEnd;
+    } else {
+      // Setelah free time, event berikutnya adalah sahurStart pada hari berikutnya
+      nextEvent = parseTimeForToday("04:00");
+      nextEvent.setDate(nextEvent.getDate() + 1);
+    }
     const diff = nextEvent - now;
     const hh = Math.floor(diff / 3600000);
     const mm = Math.floor((diff % 3600000) / 60000);
     const ss = Math.floor((diff % 60000) / 1000);
     timeRemainingEl.innerHTML = `
-      <span class="time-unit">${String(hh).padStart(2, '0')}
-        <span class="time-label">jam</span>
-      </span>
-      <span class="time-unit">${String(mm).padStart(2, '0')}
-        <span class="time-label">menit</span>
-      </span>
-      <span class="time-unit">${String(ss).padStart(2, '0')}
-        <span class="time-label">detik</span>
-      </span>
+      <span class="time-unit">${String(hh).padStart(2, '0')}<span class="time-label">jam</span></span>
+      <span class="time-unit">${String(mm).padStart(2, '0')}<span class="time-label">menit</span></span>
+      <span class="time-unit">${String(ss).padStart(2, '0')}<span class="time-label">detik</span></span>
     `;
     statusBadgeEl.textContent = "-";
-  
+    
     checkMaghribNotification(todaySchedule);
   }
   
-  // ================= SINGLE INTERVAL UNTUK UPDATE CLOCK & FASTING PROGRESS =================
+  // ================= INTERVAL UTAMA =================
   setInterval(() => {
     updateClock();
     updateFastingProgress();
+    populateSchedule(document.querySelector('.tab-button.active')?.getAttribute('data-view') || 'all');
   }, 1000);
   
   // Inisialisasi update segera saat load
   updateClock();
   updateFastingProgress();
-  
 })();
 
   </script>
